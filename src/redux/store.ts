@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileReducer, { ProfileState } from './profileSlice';
 
-//revisit these imports later — might prune unused ones
+//revisit these imports later 
 
 
 

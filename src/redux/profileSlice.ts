@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
 
-// revisit these imports later — might prune unused ones
+// revisit these imports later 
 
 
 
