@@ -1,5 +1,5 @@
 
-//nothing changed
+//this is the navbar
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
