@@ -1,9 +1,11 @@
+
+
 interface ValidationResult {
   isValid: boolean;
   message?: string;
 }
 
-export const validateName = (name: string): ValidationResult => {
+export let validateName = (name: string): ValidationResult => {
   if (!name || name.trim() === '') {
     return { isValid: false, message: 'Name is required' };
   }
@@ -13,7 +15,7 @@ export const validateName = (name: string): ValidationResult => {
   return { isValid: true };
 };
 
-export const validateEmail = (email: string): ValidationResult => {
+export let validateEmail = (email: string): ValidationResult => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || email.trim() === '') {
     return { isValid: false, message: 'Email is required' };
@@ -59,3 +61,4 @@ export const validateProfile = (data: {
 
   return { isValid: true };
 };
+

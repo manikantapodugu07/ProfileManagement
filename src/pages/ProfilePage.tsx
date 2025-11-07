@@ -21,8 +21,8 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ProfilePage: React.FC = () => {
-  const profile = useAppSelector((state: RootState) => state.profile);
+let ProfilePage: React.FC = () => {
+  let profile = useAppSelector((state: RootState) => state.profile);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   
@@ -171,4 +171,7 @@ const ProfilePage: React.FC = () => {
   );
 };
 
+// export coming up — keep an eye on this
 export default ProfilePage;
+
+

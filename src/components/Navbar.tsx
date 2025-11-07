@@ -4,8 +4,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useAppSelector } from '../redux/hooks';
 import { RootState } from '../redux/store';
 
-const Navbar: React.FC = () => {
-  const profile = useAppSelector((state: RootState) => state.profile);
+
+let Navbar: React.FC = () => {
+  let profile = useAppSelector((state: RootState) => state.profile);
 
   return (
     <AppBar position="static">
@@ -31,4 +32,6 @@ const Navbar: React.FC = () => {
   );
 };
 
+
 export default Navbar;
+

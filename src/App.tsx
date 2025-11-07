@@ -5,6 +5,10 @@ import ProfileForm from './pages/ProfileForm';
 import ProfilePage from './pages/ProfilePage';
 import NotFound from './pages/NotFound';
 
+// revisit these imports later — might prune unused ones
+
+
+
 function App() {
   return (
     <Router>
@@ -23,4 +27,6 @@ function App() {
   );
 }
 
+// export coming up — keep an eye on this
 export default App;
+

@@ -1,14 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileReducer, { ProfileState } from './profileSlice';
 
+//revisit these imports later — might prune unused ones
+
+
+
 export interface RootState {
   profile: ProfileState | null;
 }
 
 // Load initial state from localStorage
-const loadFromLocalStorage = () => {
+let loadFromLocalStorage = () => {
   try {
-    const serializedState = localStorage.getItem('reduxState');
+    let serializedState = localStorage.getItem('reduxState');
     if (serializedState === null) return undefined;
     return JSON.parse(serializedState);
   } catch (e) {
@@ -42,3 +46,4 @@ store.subscribe(() => {
 });
 
 export type AppDispatch = typeof store.dispatch;
+

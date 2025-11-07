@@ -1,9 +1,12 @@
 import { ProfileState } from '../redux/profileSlice';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL_DEV || 'http://localhost:3000';
+
+
+
+let API_BASE_URL = import.meta.env.VITE_API_BASE_URL_DEV || 'http://localhost:3000';
 
 // Simulated API calls using localStorage
-export const getProfile = async (): Promise<ProfileState | null> => {
+export let getProfile = async (): Promise<ProfileState | null> => {
   // In a real app, this would be an actual API call
   return new Promise((resolve) => {
     const profile = localStorage.getItem('profile');
@@ -33,3 +36,4 @@ export const deleteProfile = async (): Promise<boolean> => {
     }, 500); // Simulate network delay
   });
 };
+

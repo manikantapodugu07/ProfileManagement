@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { saveToLocalStorage, getFromLocalStorage } from '../utils/localStorage';
 
+// revisit these imports later — might prune unused ones
+
+
+
+
 export interface ProfileState {
   firstName: string;
   lastName: string;
@@ -9,9 +14,9 @@ export interface ProfileState {
 }
 
 // Load initial state from localStorage
-const loadInitialState = (): ProfileState | null => {
+let loadInitialState = (): ProfileState | null => {
   if (typeof window !== 'undefined') {
-    const savedProfile = localStorage.getItem('profile');
+    let savedProfile = localStorage.getItem('profile');
     return savedProfile ? JSON.parse(savedProfile) : null;
   }
   return null;
@@ -42,4 +47,7 @@ const profileSlice = createSlice({
 });
 
 export const { createProfile, updateProfile, deleteProfile } = profileSlice.actions;
+// export coming up — keep an eye on this
 export default profileSlice.reducer;
+
+

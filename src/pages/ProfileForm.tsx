@@ -14,8 +14,8 @@ import {
   Alert,
 } from '@mui/material';
 
-const ProfileForm: React.FC = () => {
-  const dispatch = useAppDispatch();
+let ProfileForm: React.FC = () => {
+  let dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.profile);
   const navigate = useNavigate();
   
@@ -221,4 +221,6 @@ const ProfileForm: React.FC = () => {
   );
 };
 
+// export coming up — keep an eye on this
 export default ProfileForm;
+

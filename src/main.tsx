@@ -6,7 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import App from './App';
 import { store } from './redux/store';
 
-const theme = createTheme({
+
+
+let theme = createTheme({
   palette: {
     primary: {
       main: '#1976d2',
@@ -30,3 +32,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </React.StrictMode>
 );
+
+

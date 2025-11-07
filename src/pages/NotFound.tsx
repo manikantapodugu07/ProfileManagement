@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
-const NotFound: React.FC = () => {
-  const navigate = useNavigate();
+
+
+
+
+let NotFound: React.FC = () => {
+  let navigate = useNavigate();
 
   return (
     <Container maxWidth="md">
@@ -47,4 +51,7 @@ const NotFound: React.FC = () => {
   );
 };
 
+
 export default NotFound;
+
+
