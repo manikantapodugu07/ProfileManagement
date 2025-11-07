@@ -8,7 +8,16 @@ export interface ProfileState {
   age?: number;
 }
 
-const initialState: ProfileState | null = getFromLocalStorage<ProfileState>('profile');
+// Load initial state from localStorage
+const loadInitialState = (): ProfileState | null => {
+  if (typeof window !== 'undefined') {
+    const savedProfile = localStorage.getItem('profile');
+    return savedProfile ? JSON.parse(savedProfile) : null;
+  }
+  return null;
+};
+
+const initialState = loadInitialState();
 
 const profileSlice = createSlice({
   name: 'profile',
