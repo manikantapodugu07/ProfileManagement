@@ -3,10 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
-
-
-
-
 let NotFound: React.FC = () => {
   let navigate = useNavigate();
 
