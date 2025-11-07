@@ -33,7 +33,7 @@ export const store = configureStore({
   reducer: {
     profile: profileReducer,
   },
-  preloadedState,
+  preloadedState: preloadedState ? { profile: preloadedState.profile } : undefined,
 });
 
 // Subscribe to store changes and save to localStorage
