@@ -3,40 +3,69 @@
 interface ValidationResult {
   isValid: boolean;
   message?: string;
+  fieldErrors?: Record<string, string>;
 }
 
-export let validateName = (name: string): ValidationResult => {
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
+// Field-level validators
+export const validateName = (name: string, fieldName: string = 'Name'): string | undefined => {
   if (!name || name.trim() === '') {
-    return { isValid: false, message: 'Name is required' };
+    return `${fieldName} is required`;
   }
-  if (name.length < 3) {
-    return { isValid: false, message: 'Name must be at least 3 characters long' };
+  if (name.trim().length < 2) {
+    return `${fieldName} must be at least 2 characters long`;
   }
-  return { isValid: true };
+  if (!/^[a-zA-Z\s-']+$/.test(name)) {
+    return `${fieldName} can only contain letters, spaces, hyphens, and apostrophes`;
+  }
+  return undefined;
 };
 
-export let validateEmail = (email: string): ValidationResult => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const validateEmail = (email: string): string | undefined => {
   if (!email || email.trim() === '') {
-    return { isValid: false, message: 'Email is required' };
+    return 'Email is required';
   }
-  if (!emailRegex.test(email)) {
-    return { isValid: false, message: 'Please enter a valid email address' };
+  
+  const emailValue = email.trim();
+  
+  // Basic format validation
+  if (!EMAIL_REGEX.test(emailValue)) {
+    return 'Please enter a valid email address (e.g., user@example.com)';
   }
-  return { isValid: true };
+  
+  // Check for common typos
+  if (emailValue.includes(' ')) {
+    return 'Email should not contain spaces';
+  }
+  
+  if (emailValue.includes('..')) {
+    return 'Email should not contain consecutive dots';
+  }
+  
+  // Check for valid TLD
+  const tld = emailValue.split('.').pop();
+  if (!tld || tld.length < 2) {
+    return 'The domain portion of the email is invalid';
+  }
+  
+  return undefined;
 };
 
-export const validateAge = (age: string): ValidationResult => {
-  if (!age) return { isValid: true }; // Age is optional
+export const validateAge = (age: string): string | undefined => {
+  if (!age) return undefined; // Age is optional
   
   const ageNum = Number(age);
   if (isNaN(ageNum)) {
-    return { isValid: false, message: 'Age must be a number' };
+    return 'Age must be a number';
   }
-  if (ageNum < 0 || ageNum > 150) {
-    return { isValid: false, message: 'Please enter a valid age' };
+  if (!Number.isInteger(ageNum)) {
+    return 'Age must be a whole number';
   }
-  return { isValid: true };
+  if (ageNum < 1 || ageNum > 120) {
+    return 'Please enter a valid age between 1 and 120';
+  }
+  return undefined;
 };
 
 export const validateProfile = (data: {
@@ -44,20 +73,31 @@ export const validateProfile = (data: {
   lastName: string;
   email: string;
   age?: string;
-}) => {
-  const firstNameValidation = validateName(data.firstName);
-  if (!firstNameValidation.isValid) return firstNameValidation;
-
-  const lastNameValidation = validateName(data.lastName);
-  if (!lastNameValidation.isValid) return lastNameValidation;
-
-  const emailValidation = validateEmail(data.email);
-  if (!emailValidation.isValid) return emailValidation;
-
+}): ValidationResult => {
+  const fieldErrors: Record<string, string> = {};
+  
+  // Validate first name
+  const firstNameError = validateName(data.firstName, 'First name');
+  if (firstNameError) fieldErrors.firstName = firstNameError;
+  
+  // Validate last name
+  const lastNameError = validateName(data.lastName, 'Last name');
+  if (lastNameError) fieldErrors.lastName = lastNameError;
+  
+  // Validate email
+  const emailError = validateEmail(data.email);
+  if (emailError) fieldErrors.email = emailError;
+  
+  // Validate age if provided
   if (data.age) {
-    const ageValidation = validateAge(data.age);
-    if (!ageValidation.isValid) return ageValidation;
+    const ageError = validateAge(data.age);
+    if (ageError) fieldErrors.age = ageError;
   }
+  
+  return {
+    isValid: Object.keys(fieldErrors).length === 0,
+    fieldErrors: Object.keys(fieldErrors).length > 0 ? fieldErrors : undefined
+  };
 
   return { isValid: true };
 };

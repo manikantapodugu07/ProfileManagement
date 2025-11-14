@@ -1,49 +1,60 @@
-import { configureStore } from '@reduxjs/toolkit';
-import profileReducer, { ProfileState } from './profileSlice';
-
-//revisit these imports later 
-
-
+import { configureStore, Action, ThunkAction, createSelector } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import profileReducer, { ProfileState, ProfileData } from './profileSlice';
 
 export interface RootState {
-  profile: ProfileState | null;
+  profile: ProfileState;
 }
 
-// Load initial state from localStorage
-let loadFromLocalStorage = () => {
-  try {
-    let serializedState = localStorage.getItem('reduxState');
-    if (serializedState === null) return undefined;
-    return JSON.parse(serializedState);
-  } catch (e) {
-    console.warn('Failed to load state from localStorage', e);
-    return undefined;
-  }
-};
-
-// Save state to localStorage
-const saveToLocalStorage = (state: RootState) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem('reduxState', serializedState);
-  } catch (e) {
-    console.warn('Failed to save state to localStorage', e);
-  }
-};
-
-const preloadedState = loadFromLocalStorage();
-
-export const store = configureStore({
+// Configure the Redux store
+const store = configureStore({
   reducer: {
     profile: profileReducer,
   },
-  preloadedState: preloadedState ? { profile: preloadedState.profile } : undefined,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these field paths in all actions
+        ignoredActionPaths: ['meta.arg', 'payload.timestamp'],
+        // Ignore these paths in the state
+        ignoredPaths: ['items.dates'],
+      },
+    }),
+  // Enable Redux DevTools in development
+  devTools: import.meta.env.MODE !== 'production',
 });
 
-// Subscribe to store changes and save to localStorage
-store.subscribe(() => {
-  saveToLocalStorage(store.getState());
-});
+// Memoized selectors
+const selectProfileState = (state: RootState) => state.profile;
 
+export const selectProfile = createSelector(
+  [selectProfileState],
+  (profileState) => profileState.data
+);
+
+export const selectProfileStatus = createSelector(
+  [selectProfileState],
+  (profileState) => profileState.status
+);
+
+export const selectProfileError = createSelector(
+  [selectProfileState],
+  (profileState) => profileState.error
+);
+
+// Infer the `RootState` and `AppDispatch` types from the store itself
 export type AppDispatch = typeof store.dispatch;
 
+// Define the AppThunk type for type-safe thunks
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
+
+// Typed hooks for use throughout the app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export default store;

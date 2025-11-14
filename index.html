@@ -4,10 +4,39 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>mui-profile-app</title>
+    <title>Profile Management App</title>
+    <!-- Add Roboto font -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <!-- Add Material Icons -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div>Loading application...</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Debug script to check if the DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM fully loaded and parsed');
+        
+        // Check if root element exists
+        const rootElement = document.getElementById('root');
+        console.log('Root element:', rootElement);
+        
+        // Check for any script loading errors
+        window.addEventListener('error', (event) => {
+          console.error('Script error:', event);
+        });
+      });
+    </script>
   </body>
 </html>
