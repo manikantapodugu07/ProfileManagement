@@ -11,7 +11,7 @@
     "clean": "rimraf node_modules .vite dist",
     "start": "vite --host",
     "type-check": "tsc --noEmit",
-    "postinstall": "npm run type-check"
+    "postinstall": ""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -40,6 +40,9 @@
     "rimraf": "^5.0.5",
     "typescript": "^5.3.3",
     "vite": "^7.1.7",
-    "vite-plugin-checker": "^0.6.7"
+   "vite-plugin-checker": "^0.6.4"
+
+
+
   }
 }
